@@ -1,6 +1,5 @@
 import { values, pick, omit } from 'lodash';
 import { Platform } from 'react-native';
-import deviceInfo from 'react-native-device-info';
 import { initialize, batchDebugEvents } from './redux/module';
 
 const device = {
