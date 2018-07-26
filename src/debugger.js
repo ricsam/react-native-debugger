@@ -4,12 +4,7 @@ import deviceInfo from 'react-native-device-info';
 import { initialize, batchDebugEvents } from './redux/module';
 
 const device = {
-  bundleId: deviceInfo.getBundleId(),
-  name: deviceInfo.getDeviceName(),
   platform: Platform.OS,
-  id: deviceInfo.getUniqueID(),
-  buildNumber: deviceInfo.getBuildNumber(),
-  country: deviceInfo.getDeviceCountry(),
 };
 
 const __config = {
