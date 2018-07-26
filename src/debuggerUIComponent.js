@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
-import { PropTypes } from 'prop-types';
-import { View, ScrollView, TouchableOpacity, Text } from 'react-native';
-import s from './debuggerUIComponent.style.js';
-import Debugger from './debugger';
+import React, { Component } from "react";
+import { PropTypes } from "prop-types";
+import { View, ScrollView, TouchableOpacity, Text } from "react-native";
+import s from "./debuggerUIComponent.style.js";
+import Debugger from "./debugger";
 
 const formatDate = (renderDate, date) => {
   const diff = renderDate - date;
@@ -15,8 +15,8 @@ const formatDate = (renderDate, date) => {
 };
 
 const POSITIONS = {
-  TOP: 'TOP',
-  BOTTOM: 'BOTTOM',
+  TOP: "TOP",
+  BOTTOM: "BOTTOM",
 };
 
 class DebuggerUI extends Component {
@@ -35,7 +35,11 @@ class DebuggerUI extends Component {
   }
 
   updateTime = () => {
-    if (this.props.events.length && !this.state.showSettings && this.props.isVisible) {
+    if (
+      this.props.events.length &&
+      !this.state.showSettings &&
+      this.props.isVisible
+    ) {
       clearTimeout(this.forceRenderTimeout);
       this.forceRenderTimeout = setTimeout(() => {
         this.forceUpdate();
@@ -56,11 +60,11 @@ class DebuggerUI extends Component {
     this.setState({
       opendItems,
     });
-  }
+  };
 
   toggleSettings = () => {
     this.setState({ showSettings: !this.state.showSettings });
-  }
+  };
 
   isActiveEventType = ({ type }) => this.props.debugTypes.includes(type);
 
@@ -72,22 +76,29 @@ class DebuggerUI extends Component {
         </View>
         <View style={s.textContainer}>
           <Text
-            children={this.state.opendItems.includes(id) ? label : label.slice(0, 100)}
+            children={
+              this.state.opendItems.includes(id) ? label : label.slice(0, 100)
+            }
             style={[s.text, s.label]}
           />
-          <Text children={formatDate(this.renderDate, date)} style={[s.text, s.time]} />
+          <Text
+            children={formatDate(this.renderDate, date)}
+            style={[s.text, s.time]}
+          />
           <Text
             children={`Type: ${Debugger.getActionTypeShortName(type)}`}
             type="white"
             style={s.time}
           />
-          {
-            this.state.opendItems.includes(id) && data && (
+          {this.state.opendItems.includes(id) &&
+            data && (
               <View style={s.dataContainer}>
-                <Text children={JSON.stringify(data, null, 2)} style={[s.text, s.data]} />
+                <Text
+                  children={JSON.stringify(data, null, 2)}
+                  style={[s.text, s.data]}
+                />
               </View>
-            )
-          }
+            )}
         </View>
       </View>
     </TouchableOpacity>
@@ -96,15 +107,23 @@ class DebuggerUI extends Component {
   renderSettings = () => (
     <View style={s.settingsContainer}>
       <View style={s.settingsBlockContianer}>
-        <Text children="Log Categories" style={[s.text, { paddingBottom: 10 }]} />
-        {Debugger.actionTypeList.map((type) => {
+        <Text
+          children="Log Categories"
+          style={[s.text, { paddingBottom: 10 }]}
+        />
+        {Debugger.actionTypeList.map((type, index) => {
           const isActive = this.isActiveEventType({ type });
           return (
-            <TouchableOpacity onPress={() => this.props.toggleSetting(type)}>
+            <TouchableOpacity
+              onPress={() => this.props.toggleSetting(type)}
+              key={`type-${index}`}
+            >
               <View key={type} style={s.settingsItem}>
                 <Text
-                  style={[s.text, { color: isActive ? 'green' : 'white' }]}
-                  children={`${Debugger.getActionTypeName(type)}: ${isActive ? 'ON' : 'OFF'}`}
+                  style={[s.text, { color: isActive ? "green" : "white" }]}
+                  children={`${Debugger.getActionTypeName(type)}: ${
+                    isActive ? "ON" : "OFF"
+                  }`}
                 />
               </View>
             </TouchableOpacity>
@@ -112,12 +131,19 @@ class DebuggerUI extends Component {
         })}
       </View>
       <Text children="Event Types" style={[s.text, { paddingBottom: 10 }]} />
-      <View style={[s.settingsBlockContianer, { flexDirection: 'row' }]}>
-        {Debugger.eventTypeList.map((type) => (
-          <TouchableOpacity onPress={() => this.props.setLogLevel(type)} style={{ flex: 1 }}>
+      <View style={[s.settingsBlockContianer, { flexDirection: "row" }]}>
+        {Debugger.eventTypeList.map((type, index) => (
+          <TouchableOpacity
+            onPress={() => this.props.setLogLevel(type)}
+            style={{ flex: 1 }}
+            key={`type-${index}`}
+          >
             <View key={type} style={s.eventItem}>
               <Text
-                style={[s.text, { color: this.props.logLevel === type ? 'green' : 'white' }]}
+                style={[
+                  s.text,
+                  { color: this.props.logLevel === type ? "green" : "white" },
+                ]}
                 children={type}
               />
             </View>
@@ -137,9 +163,7 @@ class DebuggerUI extends Component {
       <TouchableOpacity onPress={this.toggleSettings} style={{ flex: 1 }}>
         <View style={s.button}>
           <Text
-            children={
-              this.state.showSettings ? 'Back' : 'Settings'
-            }
+            children={this.state.showSettings ? "Back" : "Settings"}
             style={[s.text, s.text]}
           />
         </View>
@@ -166,23 +190,26 @@ class DebuggerUI extends Component {
         style={[
           s.root,
           {
-            [this.state.position === POSITIONS.BOTTOM ? 'bottom' : 'top']: 0,
+            [this.state.position === POSITIONS.BOTTOM ? "bottom" : "top"]: 0,
           },
         ]}
       >
         <TouchableOpacity
           onPress={() => {
             this.setState({
-              position: this.state.position === POSITIONS.TOP ? POSITIONS.BOTTOM : POSITIONS.TOP,
+              position:
+                this.state.position === POSITIONS.TOP
+                  ? POSITIONS.BOTTOM
+                  : POSITIONS.TOP,
             });
           }}
         >
           <Text children="DEBUGGER UI" style={[s.text, s.title]} />
         </TouchableOpacity>
         <ScrollView style={s.scroller}>
-          {
-            this.state.showSettings ? this.renderSettings() : this.renderEvents()
-          }
+          {this.state.showSettings
+            ? this.renderSettings()
+            : this.renderEvents()}
         </ScrollView>
         {this.renderControls()}
       </View>
